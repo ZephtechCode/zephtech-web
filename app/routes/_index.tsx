@@ -3,7 +3,6 @@ import Footer from "~/components/footer";
 import Hero from "~/components/hero";
 import Nav from "~/components/nav";
 import ServiceScroll from "~/components/service-scroll";
-import { Card } from "@/components/ui/card";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,11 +14,12 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div className="flex min-h-screen flex-col bg-gray-900 font-sans">
-      <Nav />
+
       <div className="flex-grow">
         <Hero />
         <ServiceScroll />
       </div>
+
       <Footer />
     </div>
   );
