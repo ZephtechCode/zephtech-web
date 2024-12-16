@@ -1,8 +1,8 @@
 import type { MetaFunction } from "@remix-run/node";
-import Footer from "@/components/footer";
-import Hero from "@/components/hero";
-import Nav from "@/components/nav";
-import ServiceScroll from "@/components/service-scroll";
+import Footer from "~/components/footer";
+import Hero from "~/components/hero";
+import Nav from "~/components/nav";
+import ServiceScroll from "~/components/service-scroll";
 import { Card } from "@/components/ui/card";
 
 export const meta: MetaFunction = () => {
