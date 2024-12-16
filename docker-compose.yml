@@ -1,0 +1,18 @@
+name: Zephtech-Web 
+services:
+  strapi:
+    image: strapi/strapi:latest  
+    container_name: zephtech-strapi 
+    stdin_open: true 
+    tty: true  
+    environment:
+      NODE_ENV: development
+      DATABASE_CLIENT: sqlite
+      DATABASE_FILENAME: /data/db.sqlite 
+      ADMIN_WATCH_IGNORE: ~/AppData/strapi/data*"
+    ports:
+      - "1337:1337" 
+    volumes:
+      - "~/AppData/strapi:/srv/app"
+      - "~/AppData/strapi-db/data:/data"
+    restart: unless-stopped
