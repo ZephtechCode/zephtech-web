@@ -18,7 +18,7 @@ export default function Index() {
       <Nav />
       <div className="flex-grow">
         <Hero />
-        //
+        <ServiceScroll />
       </div>
       <Footer />
     </div>

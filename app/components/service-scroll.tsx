@@ -2,9 +2,46 @@ import React, { useState, useEffect } from "react";
 import "../css/service-scroll.css";
 
 export default function ServiceScroll() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // Initialize state variables with default values to avoid SSR issues
+  const [windowWidth, setWindowWidth] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // This effect runs after the component mounts and is safe to access window
+  useEffect(() => {
+    // Ensure this code only runs on the client side
+    if (typeof window !== "undefined") {
+      // Set initial window width and determine if it's mobile
+      const initialWidth = window.innerWidth;
+      setWindowWidth(initialWidth);
+      setIsMobile(initialWidth <= 768);
+
+      // Handle resize events
+      const handleResize = () => {
+        const newWidth = window.innerWidth;
+        setWindowWidth(newWidth);
+        setIsMobile(newWidth <= 768);
+      };
+
+      // Attach resize event listener
+      window.addEventListener("resize", handleResize);
+
+      // Cleanup the event listener on component unmount
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, []); // Empty dependency array means this runs only once when the component mounts
+
+  // Reset current index when the screen changes from mobile to desktop
+  useEffect(() => {
+    if (isMobile) {
+      setCurrentIndex(0); // Reset to the first card on mobile
+    } else {
+      setCurrentIndex(0); // Reset to the first card when resizing to desktop
+    }
+  }, [isMobile]); // Runs when the isMobile state changes
+
   const cardsToShow = 3;
 
   const cards = [
@@ -49,27 +86,6 @@ export default function ServiceScroll() {
         "Enhance your security with our advanced CCTV and IP camera solutions. We specialize in the professional installation of high-definition surveillance systems, ensuring comprehensive coverage for your premises.",
     },
   ];
-
-  const handleResize = () => {
-    const newWidth = window.innerWidth;
-    setWindowWidth(newWidth);
-    setIsMobile(newWidth <= 768);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isMobile) {
-      setCurrentIndex(0); // Reset to the first card on mobile
-    } else {
-      setCurrentIndex(0); // Reset to the first card when resizing to desktop
-    }
-  }, [isMobile]);
 
   const nextCards = () => {
     setCurrentIndex((prevIndex) => (prevIndex + cardsToShow) % cards.length);
