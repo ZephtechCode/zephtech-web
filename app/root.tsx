@@ -4,15 +4,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./components/app-sidebar"; // Import your sidebar component
-import { ThemeProvider } from "./components/theme-provider";
 
 import "./globals.css";
 import { themeSessionResolver } from "./sessions.server";
-import { Theme } from "remix-themes";
+import { Theme, ThemeProvider, useTheme } from "remix-themes";
+import clsx from "clsx";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -34,34 +35,43 @@ export async function loader({ request }: LoaderFunctionArgs) {
   };
 }
 
-
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider defaultTheme="dark">
-      <html lang="en">
-        <head>
-          <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <Meta />
-          <Links />
-        </head>
-        
-        <body>
+    <ThemeWrapper>
+      <Document>{children}</Document>
+    </ThemeWrapper>
+  );
+}
+export function Document({ children }: any) {
+  const theme = useTheme();
+  return (
+    <html lang="en" className={clsx(theme)}>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+
+      <body>
         <SidebarProvider defaultOpen={false}>
-          
           <main>{children}</main>
           <SidebarTrigger />
           <AppSidebar />
-          
 
           <ScrollRestoration />
           <Scripts />
-          </SidebarProvider>
-        </body>
-        
-      </html>
-      </ThemeProvider>
-    
+        </SidebarProvider>
+      </body>
+    </html>
+  );
+}
+export function ThemeWrapper({ children }: any) {
+  const data = useLoaderData<typeof loader>();
+  return (
+    <ThemeProvider specifiedTheme={data.theme} themeAction="/action/set-theme">
+      {children}
+    </ThemeProvider>
   );
 }
 
