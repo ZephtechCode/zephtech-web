@@ -51,7 +51,7 @@ export default function Nav() {
       <nav className="flex items-center justify-between bg-gray-800 px-6 py-3 shadow-md">
         <a href="/">
           <img
-            src="/static/images/logo.png"
+            src="/images/logo.png"
             alt="Logo"
             style={{ height: "25px", width: "auto" }}
           />
