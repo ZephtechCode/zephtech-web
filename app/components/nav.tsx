@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 
 export default function Nav() {
   return (
-    <NavigationMenu className="min-w-full">
-      <NavigationMenuList className="flex justify-between py-3 px-6">
+    <NavigationMenu className="min-w-full [&>*]:w-full">
+      <NavigationMenuList className="flex w-full justify-between py-3 px-6">
         <NavigationMenuItem>
           <img src="/images/logo.png" className=" w-44" />
         </NavigationMenuItem>
