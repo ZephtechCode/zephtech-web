@@ -36,7 +36,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   };
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export default function App() {
   return (
     <html lang="en">
       <head>
@@ -51,7 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <SidebarProvider defaultOpen={false}>
               <div>
                 <Nav />
-                {children}
+                <Outlet />
               </div>
               <AppSidebar />
             </SidebarProvider>
@@ -75,8 +75,4 @@ export function ThemeWrapper({ children }: any) {
       {children}
     </ThemeProvider>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }
