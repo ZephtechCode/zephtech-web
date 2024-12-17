@@ -52,8 +52,8 @@ export default function App() {
               <div>
                 <Nav />
                 <Outlet />
+                <AppSidebar />
               </div>
-              <AppSidebar />
             </SidebarProvider>
           </Main>
         </ThemeWrapper>
