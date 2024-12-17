@@ -1,5 +1,17 @@
-import { Sidebar } from "@/components/ui/sidebar"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+} from "@/components/ui/sidebar";
 
 export function AppSidebar() {
-  return <Sidebar side="right" />
+  return (
+    <Sidebar side="right">
+      <SidebarHeader />
+      <SidebarContent></SidebarContent>
+      <SidebarFooter />
+    </Sidebar>
+  );
 }

@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import "../css/hero.css";
+import { useSidebar } from "@/components/ui/sidebar";
 export default function hero() {
+  const { toggleSidebar } = useSidebar();
   useEffect(() => {
     const services = [
       "IT solutions?",
@@ -118,12 +120,12 @@ export default function hero() {
           <p className="mb-4 text-lg text-gray-300">
             I think we can help with that.
           </p>
-          <a
-            href="/options"
+          <div
+            onClick={toggleSidebar}
             className="rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
           >
             Service Options
-          </a>
+          </div>
         </div>
       </div>
     </div>

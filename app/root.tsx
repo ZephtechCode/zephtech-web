@@ -14,6 +14,7 @@ import "./globals.css";
 import { themeSessionResolver } from "./sessions.server";
 import { Theme, ThemeProvider, useTheme } from "remix-themes";
 import clsx from "clsx";
+import Nav from "./components/nav";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -37,35 +38,36 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeWrapper>
-      <Document>{children}</Document>
-    </ThemeWrapper>
-  );
-}
-export function Document({ children }: any) {
-  const theme = useTheme();
-  return (
-    <html lang="en" className={clsx(theme)}>
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-
       <body>
-        <SidebarProvider defaultOpen={false}>
-          <main>{children}</main>
-          <SidebarTrigger />
-          <AppSidebar />
-
-          <ScrollRestoration />
-          <Scripts />
-        </SidebarProvider>
+        <ThemeWrapper>
+          <Main>
+            <SidebarProvider defaultOpen={false}>
+              <div>
+                <Nav />
+                {children}
+              </div>
+              <AppSidebar />
+            </SidebarProvider>
+          </Main>
+        </ThemeWrapper>
+        <ScrollRestoration />
+        <Scripts />
       </body>
     </html>
   );
 }
+export function Main({ children }: any) {
+  const theme = useTheme();
+  return <main className={clsx(theme)}>{children}</main>;
+}
+
 export function ThemeWrapper({ children }: any) {
   const data = useLoaderData<typeof loader>();
   return (
