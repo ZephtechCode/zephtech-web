@@ -1,28 +1,22 @@
 import React from "react";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
+import { Button } from "@/components/ui/button";
 
-export default function footer() {
+export default function Footer() {
   return (
-    <>
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <NavigationMenuLink>Link</NavigationMenuLink>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-    </>
+    <NavigationMenu className="min-w-full bg-zinc-800 text-white [&>*]:w-full">
+      <NavigationMenuList className="flex w-full justify-between py-1 px-6">
+        <NavigationMenuItem>
+        © 2024 Zephtech LLC
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+        <Button variant="link">(775) 323-4100</Button>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 }

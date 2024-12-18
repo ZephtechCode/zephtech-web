@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import "../css/hero.css";
-import { useSidebar } from "@/components/ui/sidebar";
+
 export default function hero() {
-  const { toggleSidebar } = useSidebar();
+
   useEffect(() => {
     const services = [
       "IT solutions?",
@@ -104,12 +104,12 @@ export default function hero() {
 
   return (
     <div
-      className="hero-background flex h-screen flex-col"
+      className="hero-background flex flex-col"
       id="hero-background"
     >
       <div className="overlay" id="overlay"></div>
 
-      <div className="content h-full flex-col justify-between">
+      <div className="content  flex-col justify-between">
         <div className="flex flex-1 flex-col justify-center p-8 text-center">
           <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             <span className="dynamic-text">So you need IT services?</span>
@@ -121,7 +121,7 @@ export default function hero() {
             I think we can help with that.
           </p>
           <div
-            onClick={toggleSidebar}
+            
             className="rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
           >
             Service Options

@@ -7,8 +7,9 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./components/app-sidebar"; // Import your sidebar component
+import Footer from "~/components/footer";
 
 import "./globals.css";
 import { themeSessionResolver } from "./sessions.server";
@@ -45,22 +46,23 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <ThemeWrapper>
+      <ThemeWrapper>
+        <body>
           <Main>
             <SidebarProvider defaultOpen={false}>
-              <div className="w-full">
+              <div className="bg-zinc-950 flex flex-col">
                 <Nav />
                 <Outlet />
-               
+                <Footer />
               </div>
+
               <AppSidebar />
             </SidebarProvider>
           </Main>
-        </ThemeWrapper>
-        <ScrollRestoration />
-        <Scripts />
-      </body>
+        </body>
+      </ThemeWrapper>
+      <ScrollRestoration />
+      <Scripts />
     </html>
   );
 }
