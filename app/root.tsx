@@ -49,11 +49,12 @@ export default function App() {
         <ThemeWrapper>
           <Main>
             <SidebarProvider defaultOpen={false}>
-              <div>
+              <div className="w-full">
                 <Nav />
                 <Outlet />
-                <AppSidebar />
+               
               </div>
+              <AppSidebar />
             </SidebarProvider>
           </Main>
         </ThemeWrapper>
