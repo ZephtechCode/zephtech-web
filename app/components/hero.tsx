@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import "../css/hero.css";
 
 export default function hero() {
-
   useEffect(() => {
     const services = [
       "IT solutions?",
@@ -103,10 +102,7 @@ export default function hero() {
   }, []);
 
   return (
-    <div
-      className="hero-background flex flex-col"
-      id="hero-background"
-    >
+    <div className="hero-background flex flex-col" id="hero-background">
       <div className="overlay" id="overlay"></div>
 
       <div className="content  flex-col justify-between">
@@ -120,10 +116,7 @@ export default function hero() {
           <p className="mb-4 text-lg text-gray-300">
             I think we can help with that.
           </p>
-          <div
-            
-            className="rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
-          >
+          <div className="cursor-pointer rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700">
             Service Options
           </div>
         </div>
