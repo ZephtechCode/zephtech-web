@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-neutral-950">
       <div className="flex-grow">
         <Hero />
         <ServiceScroll />

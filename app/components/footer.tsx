@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
-    <NavigationMenu className="min-w-full bg-zinc-800 text-white [&>*]:w-full">
+    <NavigationMenu className="min-w-full text-white [&>*]:w-full bg-neutral-950">
       <NavigationMenuList className="flex w-full justify-between py-1 px-6">
         <NavigationMenuItem>
         © 2024 Zephtech LLC
