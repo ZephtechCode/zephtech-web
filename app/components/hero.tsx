@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "../css/hero.css";
+
 export default function hero() {
   useEffect(() => {
     const services = [
@@ -36,10 +37,8 @@ export default function hero() {
       setTimeout(animateTyping, typingDelay);
     }
 
-    animateTyping();
-  }, []);
+    // animateTyping();
 
-  useEffect(() => {
     const overlay = document.getElementById("overlay");
     let autoRevealAnimationFrame;
     const heroBackground = document.getElementById("hero-background");
@@ -101,13 +100,10 @@ export default function hero() {
   }, []);
 
   return (
-    <div
-      className="hero-background flex h-screen flex-col"
-      id="hero-background"
-    >
+    <div className="hero-background flex flex-col" id="hero-background">
       <div className="overlay" id="overlay"></div>
 
-      <div className="content h-full flex-col justify-between">
+      <div className="content  flex-col justify-between">
         <div className="flex flex-1 flex-col justify-center p-8 text-center">
           <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             <span className="dynamic-text">So you need IT services?</span>
@@ -118,12 +114,9 @@ export default function hero() {
           <p className="mb-4 text-lg text-gray-300">
             I think we can help with that.
           </p>
-          <a
-            href="/options"
-            className="rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
-          >
+          <div className="cursor-pointer rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700">
             Service Options
-          </a>
+          </div>
         </div>
       </div>
     </div>
