@@ -7,7 +7,7 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./components/app-sidebar"; // Import your sidebar component
 import Footer from "~/components/footer";
 
@@ -36,6 +36,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     theme: getTheme() || ("dark" as Theme),
   };
 }
+ 
 
 export default function App() {
   return (
@@ -50,10 +51,13 @@ export default function App() {
         <body>
           <Main>
             <SidebarProvider defaultOpen={false}>
-              <div className="bg-neutral-950 flex flex-col w-full">
+              <div className="bg-neutral-950 flex flex-col flex-1 min-w-0">
+        
+                
                 <Nav />
                 <Outlet />
                 <Footer />
+                
               </div>
               <AppSidebar />
             </SidebarProvider>

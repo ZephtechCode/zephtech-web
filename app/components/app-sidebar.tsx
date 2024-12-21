@@ -8,9 +8,11 @@ import {
 
 export function AppSidebar() {
   return (
-    <Sidebar side="right">
+    <Sidebar side="right" variant="sidebar" collapsible="offcanvas">
       <SidebarHeader />
-      <SidebarContent></SidebarContent>
+      <SidebarContent>
+        
+      </SidebarContent>
       <SidebarFooter />
     </Sidebar>
   );

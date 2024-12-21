@@ -37,10 +37,8 @@ export default function hero() {
       setTimeout(animateTyping, typingDelay);
     }
 
-    animateTyping();
-  }, []);
+    // animateTyping();
 
-  useEffect(() => {
     const overlay = document.getElementById("overlay");
     let autoRevealAnimationFrame;
     const heroBackground = document.getElementById("hero-background");

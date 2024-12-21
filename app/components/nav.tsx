@@ -8,20 +8,11 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function Nav() {
   const { toggleSidebar } = useSidebar();
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Detect if the screen is mobile
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust breakpoint as needed
-    };
-    handleResize(); // Initialize on mount
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const isMobile = useIsMobile()
 
   const handleButtonClick = () => {
     if (isMobile) {
@@ -35,7 +26,7 @@ export default function Nav() {
 
   return (
     <NavigationMenu className="min-w-full [&>*]:w-full bg-neutral-950">
-      <NavigationMenuList className="flex w-full justify-between py-3 px-6">
+      <NavigationMenuList className="flex justify-between py-3 px-6">
         <NavigationMenuItem>
           <img src="/images/logo.png" className=" w-44" />
         </NavigationMenuItem>

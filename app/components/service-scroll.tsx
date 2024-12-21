@@ -6,7 +6,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const cards = [
   {
@@ -63,15 +63,15 @@ export default function ServiceScroll() {
         }),
       ]}
  
-      className="w-full md:w-2/3 lg:w-2/3 mx-auto p-8 "
+      className=" mx-auto p-8 "
     >
       <CarouselContent className="">
         {cards.map((card, index) => (
-          <CarouselItem key={index} className="lg:basis-1/3 sm:basis-full md:basis-full">
+          <CarouselItem key={index} className="lg:basis-1/3 basis-full">
             <Card className="h-48 bg-sidebar">
-              <CardContent className="flex flex-col items-start justify-start p-6 overflow-hidden">
-                <h3 className="text-lg font-bold mb-2">{card.title}</h3>
-                <p className="text-sm text-gray-500 line-clamp-4 break-words">
+              <CardContent className="p-6">
+                <h2 className="text-lg font-bold mb-2">{card.title}</h2>
+                <p className="text-sm text-gray-500">
                   {card.description}
                 </p>
               </CardContent>
@@ -79,8 +79,7 @@ export default function ServiceScroll() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="hidden md:flex lg:flex bg-green-600 hover:bg-green-700 text-white rounded-full" />
-      <CarouselNext className="hidden md:flex lg:flex bg-green-600 hover:bg-green-700 text-white rounded-full" />
+
     </Carousel>
   );
 }
