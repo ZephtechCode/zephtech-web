@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 
 
 import Hero from "~/components/hero";
+import ServiceOptions from "~/components/service-options";
 
 import ServiceScroll from "~/components/service-scroll";
 
@@ -16,8 +17,7 @@ export default function Index() {
   return (
     <div className="flex flex-col bg-neutral-950">
       <div className="flex-grow">
-        <Hero />
-        <ServiceScroll />
+        <ServiceOptions />
       </div>
     </div>
   );

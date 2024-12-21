@@ -4,10 +4,18 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "./components/app-sidebar"; // Import your sidebar component
+import Footer from "~/components/footer";
 
 import "./globals.css";
+import { themeSessionResolver } from "./sessions.server";
+import { Theme, ThemeProvider, useTheme } from "remix-themes";
+import clsx from "clsx";
+import Nav from "./components/nav";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -22,7 +30,15 @@ export const links: LinksFunction = () => [
   },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { getTheme } = await themeSessionResolver(request);
+  return {
+    theme: getTheme() || ("dark" as Theme),
+  };
+}
+ 
+
+export default function App() {
   return (
     <html lang="en">
       <head>
@@ -31,15 +47,37 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-      </body>
+      <ThemeWrapper>
+        <body>
+          <Main>
+            <SidebarProvider defaultOpen={false}>
+              <div className="bg-neutral-950 flex flex-col flex-1 min-w-0">
+
+                <Nav />
+                <Outlet />
+                <Footer />
+              
+              </div>
+              <AppSidebar />
+            </SidebarProvider>
+          </Main>
+        </body>
+      </ThemeWrapper>
+      <ScrollRestoration />
+      <Scripts />
     </html>
   );
 }
+export function Main({ children }: any) {
+  const theme = useTheme();
+  return <main className={clsx(theme)}>{children}</main>;
+}
 
-export default function App() {
-  return <Outlet />;
+export function ThemeWrapper({ children }: any) {
+  const data = useLoaderData<typeof loader>();
+  return (
+    <ThemeProvider specifiedTheme={data.theme} themeAction="/action/set-theme">
+      {children}
+    </ThemeProvider>
+  );
 }
