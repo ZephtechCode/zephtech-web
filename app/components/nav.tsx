@@ -25,10 +25,10 @@ export default function Nav() {
   };
 
   return (
-    <NavigationMenu className="min-w-full [&>*]:w-full bg-neutral-950">
+    <NavigationMenu className="min-w-full [&>*]:w-full bg-sidebar max-h-16">
       <NavigationMenuList className="flex justify-between py-3 px-6">
         <NavigationMenuItem>
-          <img src="/images/logo.png" className=" w-44" />
+         <a href="/"> <img src="/images/logo.png" className=" w-44" /></a>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Button
