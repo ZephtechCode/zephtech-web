@@ -52,12 +52,11 @@ export default function App() {
           <Main>
             <SidebarProvider defaultOpen={false}>
               <div className="bg-neutral-950 flex flex-col flex-1 min-w-0">
-        
-                
+
                 <Nav />
                 <Outlet />
                 <Footer />
-                
+              
               </div>
               <AppSidebar />
             </SidebarProvider>

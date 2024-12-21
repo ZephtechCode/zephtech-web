@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "../css/hero.css";
+import { Button } from "@/components/ui/button";
 
 export default function hero() {
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function hero() {
       setTimeout(animateTyping, typingDelay);
     }
 
-    // animateTyping();
+    animateTyping();
 
     const overlay = document.getElementById("overlay");
     let autoRevealAnimationFrame;
@@ -114,9 +115,9 @@ export default function hero() {
           <p className="mb-4 text-lg text-gray-300">
             I think we can help with that.
           </p>
-          <div className="cursor-pointer rounded bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700">
-            Service Options
-          </div>
+          <Button asChild className="bg-green-600 text-white transition-colors hover:bg-green-700">
+            <a href="/options">Service Options</a>
+          </Button>
         </div>
       </div>
     </div>
