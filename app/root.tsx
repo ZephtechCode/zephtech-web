@@ -53,6 +53,7 @@ export default function App() {
             <SidebarProvider defaultOpen={false}>
               <div className="bg-neutral-950 flex flex-col flex-1 min-w-0">
                 <Nav />
+                
                 <SubNav />
                 <div className="flex-1 flex flex-col">
                   <Outlet />

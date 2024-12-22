@@ -104,19 +104,22 @@ export default function hero() {
     <div className="hero-background flex flex-col" id="hero-background">
       <div className="overlay" id="overlay"></div>
 
-      <div className="content  flex-col justify-between">
+      <div className="content flex-col justify-between">
         <div className="flex flex-1 flex-col justify-center p-8 text-center">
           <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             <span className="dynamic-text">So you need IT services?</span>
           </h1>
         </div>
 
-        <div className="p-8 text-center">
-          <p className="mb-4 text-lg text-gray-300">
-            I think we can help with that.
-          </p>
+        <div className="p-4 text-center">
+          <h2 className="mb-4 text-gray-300 text-xl font-bold">
+          Because every strong network starts with a good connection.
+          </h2>
+          <h3 className="mb-4 text-gray-300 text-md font-semibold">
+          Lets amp up your business.
+          </h3>
           <Button asChild className="bg-green-600 text-white transition-colors hover:bg-green-700">
-            <a href="/options">Service Options</a>
+            <a href="/options">Establish Link</a>
           </Button>
         </div>
       </div>
