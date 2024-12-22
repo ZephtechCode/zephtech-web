@@ -1,16 +1,7 @@
 "use client";
 import React from "react";
-
-// shadcn/ui imports (adjust as needed for your setup):
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 interface Tier {
   name: string;
@@ -70,41 +61,33 @@ const pricingData: PricingData = {
 
 export default function ServiceOptions() {
   return (
+    <div className="mx-auto p-4 w-4/5 text-white">
+      <h2 className="text-2xl font-bold text-center mb-6">Pricing</h2>
 
-      <Table className="bg-sidebar aspect-video text-white w-3/4">
-        <TableHeader>
-          <TableRow>
-            <TableHead>Feature</TableHead>
-            {pricingData.tiers.map((tier) => (
-              <TableHead key={tier.name}>
-                <div className="flex flex-col gap-1 items-center">
-                  <span className="font-semibold">{tier.name}</span>
-                  <span className="text-sm text-muted-foreground">
-                    {tier.price}
-                  </span>
-                </div>
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {pricingData.features.map((feature) => (
-            <TableRow key={feature}>
-              <TableCell  >{feature}</TableCell>
-              {pricingData.tiers.map((tier) => (
-                <TableCell className="p-10" key={tier.name} >
-                  {tier.features[feature] ? (
-                    <Badge variant="default">Included</Badge>
-                  ) : (
-                    <Badge variant="destructive">Not Included</Badge>
-                  )}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
+      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {pricingData.tiers.map((tier) => (
+          <Card key={tier.name} className="bg-sidebar">
+            <CardHeader className="text-center">
+              <CardTitle>{tier.name}</CardTitle>
+              <p className="text-muted-foreground">{tier.price}</p>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {pricingData.features.map((feature) => (
+                  <li key={feature} className="flex justify-between items-center">
+                    <span>{feature}</span>
+                    {tier.features[feature] ? (
+                      <Badge variant="default">Included</Badge>
+                    ) : (
+                      <Badge variant="destructive">Not Included</Badge>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
 }
