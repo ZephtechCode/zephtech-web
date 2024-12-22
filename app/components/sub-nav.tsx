@@ -18,13 +18,13 @@ import {
 const services = [
   {
     title: "IT & Networking",
-    href: "/services/networking",
+    href: "/services/it",
     description:
       "Comprehensive IT solutions, including network setup, optimization, and device management.",
   },
   {
     title: "Development Services",
-    href: "/services/web-mobile-development",
+    href: "/services/dev",
     description:
       "Custom development for web, mobile, and self-hosted solutions.",
   },
@@ -38,8 +38,8 @@ const services = [
 
 export function SubNav() {
   return (
-    <div className="w-full bg-neutral-950">
-    <NavigationMenu className="mx-2 bg-transparent text-white max-h-10">
+    <div className="w-full max-w-full bg-neutral-950">
+    <NavigationMenu className="mx-2 bg-transparent text-white max-h-14">
       <NavigationMenuList className="w-full ">
         <NavigationMenuItem >
           <NavigationMenuTrigger >Services</NavigationMenuTrigger>
@@ -49,7 +49,7 @@ export function SubNav() {
                 <NavigationMenuLink asChild>
                   <a
                     className="flex w-full h-1/2 flex-col p-5 hover:bg-green-800 bg-green-950"
-                    href="/services"
+                    href="/services/software"
                   >
                     <div className=" text-lg font-medium">
                       Software Suite
@@ -86,18 +86,18 @@ export function SubNav() {
         <NavigationMenuItem>
           <NavigationMenuTrigger >Resources</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              <ListItem href="/resources/documentation" title="Documentation">
+            <ul className="grid gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[500px]">
+              <ListItem href="/blog/docs" title="Docs">
                 Guides and manuals to help you leverage our services
                 effectively.
               </ListItem>
-              <ListItem href="/resources/tutorials" title="Tutorials">
+              <ListItem href="/blog/tutorials" title="Tutorials">
                 Step-by-step tutorials for setting up and using IT solutions.
               </ListItem>
-              <ListItem href="/resources/blog" title="Blog">
+              <ListItem href="/blog" title="Blog">
                 Insights, updates, and tips from our IT experts.
               </ListItem>
-              <ListItem href="/resources/support" title="Support">
+              <ListItem href="/blog/support" title="Support">
                 Dedicated support resources to resolve your technical issues.
               </ListItem>
             </ul>
