@@ -6,10 +6,12 @@ import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
+  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
@@ -32,33 +34,39 @@ const services = [
     description:
       "High-quality 3D printing solutions for prototyping and production.",
   },
-  {
-    title: "Shop",
-    href: "https://www.ebay.com/usr/zephtech",
-    description:
-      "Visit our eBay store for tech products and accessories.",
-  },
 ];
 
 export function SubNav() {
   return (
-    <NavigationMenu className="px-2 bg-transparent text-white">
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+    <div className="w-full bg-neutral-950">
+    <NavigationMenu className="mx-2 bg-transparent text-white max-h-10">
+      <NavigationMenuList className="w-full ">
+        <NavigationMenuItem >
+          <NavigationMenuTrigger >Services</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
+              <li className="row-span-3 border-green-700 border rounded-lg">
                 <NavigationMenuLink asChild>
                   <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                    className="flex w-full h-1/2 flex-col p-5 hover:bg-green-800 bg-green-950"
                     href="/services"
                   >
-                    <div className="mb-2 mt-4 text-lg font-medium">
-                      Zeph Software Suite
+                    <div className=" text-lg font-medium">
+                      Software Suite
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
                       Explore our software options for your business needs.
+                    </p>
+                  </a>
+                </NavigationMenuLink>
+                <NavigationMenuLink asChild>
+                  <a
+                    className="flex w-full h-1/2 flex-col p-5 hover:bg-green-800 bg-green-900"
+                    href="https://www.ebay.com/usr/zephtech_llc"
+                  >
+                    <div className="text-lg font-medium">Shop</div>
+                    <p className="text-sm leading-tight text-muted-foreground">
+                      Visit our eBay store for tech products and accessories.
                     </p>
                   </a>
                 </NavigationMenuLink>
@@ -76,11 +84,12 @@ export function SubNav() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+          <NavigationMenuTrigger >Resources</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               <ListItem href="/resources/documentation" title="Documentation">
-                Guides and manuals to help you leverage our services effectively.
+                Guides and manuals to help you leverage our services
+                effectively.
               </ListItem>
               <ListItem href="/resources/tutorials" title="Tutorials">
                 Step-by-step tutorials for setting up and using IT solutions.
@@ -96,13 +105,14 @@ export function SubNav() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <a href="/legal">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Terms of Service
             </NavigationMenuLink>
           </a>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
+    </div>
   );
 }
 

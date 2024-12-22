@@ -68,7 +68,7 @@ export default function ServiceScroll() {
         {cards.map((card, index) => (
           <CarouselItem
             key={index}
-            className="2xl:basis-1/4 xl:basis-1/3 lg:basis-1/3 md:basis-1/2 basis-full"
+            className="2xl:basis-1/6 xl:basis-1/5 lg:basis-1/4 md:basis-1/3 sm:basis-1/2 basis-full"
           >
             <Card className="h-48 bg-sidebar">
               <CardContent className="p-6">
