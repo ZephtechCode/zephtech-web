@@ -62,13 +62,13 @@ export default function ServiceScroll() {
           delay: 3000,
         }),
       ]}
-      className=" mx-auto p-8 "
+      className="p-4"
     >
-      <CarouselContent className="">
+      <CarouselContent >
         {cards.map((card, index) => (
           <CarouselItem
             key={index}
-            className="xl:basis-1/4 lg:basis-1/3 md:basis-1/2 basis-full"
+            className="2xl:basis-1/6 xl:basis-1/5 lg:basis-1/4 md:basis-1/3 sm:basis-1/2 basis-full"
           >
             <Card className="h-48 bg-sidebar">
               <CardContent className="p-6">

@@ -16,25 +16,23 @@ export default function Nav() {
 
   const handleButtonClick = () => {
     if (isMobile) {
-      // Redirect to another webpage
       window.location.href = "https://example.com"; // Replace with your URL
     } else {
-      // Toggle the sidebar
       toggleSidebar();
     }
   };
 
   return (
-    <NavigationMenu className="min-w-full [&>*]:w-full bg-neutral-950">
-      <NavigationMenuList className="flex justify-between py-3 px-6">
+    <NavigationMenu className="min-w-full [&>*]:w-full bg-sidebar max-h-16">
+      <NavigationMenuList className="flex justify-between px-6">
         <NavigationMenuItem>
-          <img src="/images/logo.png" className=" w-44" />
+         <a href="/"> <img src="/images/logo.png" className=" w-44" /></a>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Button
             onClick={handleButtonClick}
             variant="secondary"
-            className="text-white px-6 m-0 h-8 rounded-md "
+            className="text-white"
           >
             Client Access
           </Button>

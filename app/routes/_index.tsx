@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { SubNav } from "~/components/sub-nav";
 
 
 import Hero from "~/components/hero";
@@ -16,6 +17,7 @@ export default function Index() {
   return (
     <div className="flex flex-col bg-neutral-950">
       <div className="flex-grow">
+        
         <Hero />
         <ServiceScroll />
       </div>

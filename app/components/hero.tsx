@@ -1,18 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../css/hero.css";
 import { Button } from "@/components/ui/button";
 
-export default function hero() {
+export default function Hero() {
   useEffect(() => {
     const services = [
       "IT solutions?",
-      "VOIP?",
+      "VOIP services?",
       "web design?",
-      "cloud?",
-      "IOT?",
-      "networking?",
-      "help desk?",
-      "CCTV?",
+      "cloud management?",
+      "IoT integration?",
+      "networking solutions?",
+      "a help desk?",
+      "IP cameras?",
     ];
     let currentServiceIndex = 0;
     const dynamicTextElement = document.querySelector(".dynamic-text");
@@ -25,98 +25,156 @@ export default function hero() {
       const textForDisplay = isDeleting
         ? currentServiceName.slice(0, charIndex--)
         : currentServiceName.slice(0, charIndex++);
-      dynamicTextElement!.textContent = promptText + textForDisplay;
-
+      if (dynamicTextElement) {
+        dynamicTextElement.textContent = promptText + textForDisplay;
+      }
       if (!isDeleting && charIndex === currentServiceName.length) {
-        setTimeout(() => (isDeleting = true), 1000); // Start deleting after a pause
+        setTimeout(() => (isDeleting = true), 1500);
       } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
-        currentServiceIndex = (currentServiceIndex + 1) % services.length; // Cycle through services
+        currentServiceIndex = (currentServiceIndex + 1) % services.length;
       }
-
-      const typingDelay = isDeleting ? 50 : 150; // Adjust speed for deletion/typing
-      setTimeout(animateTyping, typingDelay);
+      const typingSpeed = isDeleting ? 50 : 125;
+      setTimeout(animateTyping, typingSpeed);
     }
 
     animateTyping();
 
     const overlay = document.getElementById("overlay");
-    let autoRevealAnimationFrame;
     const heroBackground = document.getElementById("hero-background");
-    let xPosition = heroBackground!.offsetWidth / 2; // Start from the center
-    let targetXPosition = xPosition;
-    let moveSpeed = 2; // Adjust move speed as needed
 
-    // Function to update position smoothly using lerp
-    function lerp(start: any, end: any, amt: any) {
+    let isAuto = true;
+    let autoRevealAnimationFrame: number | undefined;
+
+    const radius = 300;
+    let width = heroBackground!.offsetWidth;
+    let leftBound = -(radius / 2);
+    let rightBound = width + radius / 2;
+
+    let xPosition = width / 2;
+    let yPosition = heroBackground!.offsetHeight / 2;
+
+    let targetXPosition = xPosition;
+    let targetYPosition = yPosition;
+
+    let moveSpeed = 3;
+    const lerpAmount = 0.05;
+
+    function lerp(start: number, end: number, amt: number) {
       return (1 - amt) * start + amt * end;
     }
 
-    // Function for the automatic reveal effect
-    function autoReveal() {
-      const radius = 500; // Radius of the revealed circle
-      const width = heroBackground!.offsetWidth;
-      const lerpAmount = 0.05; // Adjust for smoothness
+    function renderLoop() {
+      width = heroBackground!.offsetWidth;
+      leftBound = -(radius / 2);
+      rightBound = width + radius / 2;
 
-      // Reverse direction at boundaries
-      if (targetXPosition <= radius || targetXPosition >= width - radius) {
-        moveSpeed = -moveSpeed;
+      if (isAuto) {
+        if (targetXPosition <= leftBound || targetXPosition >= rightBound) {
+          moveSpeed = -moveSpeed;
+        }
+        targetXPosition += moveSpeed;
+        targetXPosition = Math.max(leftBound, Math.min(rightBound, targetXPosition));
+        targetYPosition = heroBackground!.offsetHeight / 2;
       }
 
-      // Update target position within the boundaries
-      targetXPosition += moveSpeed;
-      targetXPosition = Math.max(
-        radius,
-        Math.min(width - radius, targetXPosition)
-      );
-
-      // Smoothly update current position towards the target
       xPosition = lerp(xPosition, targetXPosition, lerpAmount);
+      yPosition = lerp(yPosition, targetYPosition, lerpAmount);
 
-      // Update overlay gradient for auto movement
-      const gradient = `radial-gradient(circle at ${xPosition}px 50%, transparent 0%, black ${radius}px)`;
-      overlay!.style.background = gradient;
+      if (overlay) {
+        overlay.style.background = `radial-gradient(circle at ${xPosition}px ${yPosition}px, transparent 0%, rgba(0, 0, 0, 0.9) ${radius}px)`;
+      }
 
-      autoRevealAnimationFrame = requestAnimationFrame(autoReveal); // Continue the animation loop
+      autoRevealAnimationFrame = requestAnimationFrame(renderLoop);
     }
 
-    // Initialize the automatic reveal effect
-    autoReveal();
+    renderLoop();
 
-    // Function to stop automatic reveal and switch to mouse control
-    heroBackground!.addEventListener("mousemove", function (e) {
-      cancelAnimationFrame(autoRevealAnimationFrame!); // Stop the automatic reveal
-      const x = e.clientX - this.offsetLeft;
-      const radius = 500;
-      const gradient = `radial-gradient(circle at ${x}px 50%, transparent 0%, black ${radius}px)`;
-      overlay!.style.background = gradient;
+    heroBackground!.addEventListener("mousemove", (e) => {
+      if (autoRevealAnimationFrame) {
+        // We keep the same loop running, but switch mode
+        isAuto = false;
+      }
+      const mouseX = e.clientX - heroBackground!.offsetLeft;
+      const mouseY = e.clientY - heroBackground!.offsetTop;
+      targetXPosition = mouseX;
+      targetYPosition = mouseY;
     });
 
-    // Restart automatic reveal when mouse leaves
-
-    heroBackground!.addEventListener("mouseleave", function () {
-      overlay!.style.background = "black";
-      autoReveal(); // Restart the automatic movement
+    heroBackground!.addEventListener("mouseleave", () => {
+      isAuto = true;
+      const clampedX = Math.max(leftBound, Math.min(rightBound, xPosition));
+      targetXPosition = clampedX;
     });
   }, []);
 
   return (
-    <div className="hero-background flex flex-col" id="hero-background">
-      <div className="overlay" id="overlay"></div>
-
-      <div className="content  flex-col justify-between">
+    <div
+      id="hero-background"
+      className="
+        relative
+        portrait:h-[40svh]
+        portrait:md:h-[50svh]
+        h-[60svh]
+        bg-[url('/images/hero.png')]
+        bg-no-repeat
+        bg-bottom
+        bg-cover
+        flex
+        flex-col
+        overflow-hidden
+      "
+    >
+      <div
+        id="overlay"
+        className="
+          absolute
+          inset-0
+          w-full
+          h-full
+          bg-black
+          z-[1]
+        "
+      />
+      <div
+        className="
+          relative
+          z-[2]
+          h-full
+          flex
+          flex-col
+          items-center
+          justify-center
+          bg-transparent
+        "
+      >
         <div className="flex flex-1 flex-col justify-center p-8 text-center">
-          <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+          <h1
+            className="
+              text-2xl
+              font-bold
+              text-white
+              sm:text-3xl
+              md:text-4xl
+              lg:text-5xl
+              xl:text-6xl
+            "
+          >
             <span className="dynamic-text">So you need IT services?</span>
           </h1>
         </div>
-
-        <div className="p-8 text-center">
-          <p className="mb-4 text-lg text-gray-300">
-            I think we can help with that.
-          </p>
-          <Button asChild className="bg-green-600 text-white transition-colors hover:bg-green-700">
-            <a href="/options">Service Options</a>
+        <div className="p-4 text-center">
+          <h2 className="mb-4 text-gray-300 text-xl font-bold">
+            Because every strong community starts with a solid connection.
+          </h2>
+          <h3 className="mb-4 text-gray-300 text-md font-semibold">
+            Lets amp up your business.
+          </h3>
+          <Button
+            asChild
+            className="bg-green-600 text-white transition-colors hover:bg-green-700"
+          >
+            <a href="/options">Establish Link</a>
           </Button>
         </div>
       </div>
