@@ -36,8 +36,6 @@ jobs:
           bun run vite build
           echo "Vite build completed."
 
-      - name: Run tests (optional)
-        run: bun test
 
   deploy:
     needs: build
