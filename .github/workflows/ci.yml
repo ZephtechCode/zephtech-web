@@ -13,18 +13,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Install Bun
       - name: Install Bun
         uses: oven-sh/setup-bun@v1
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: bun install
 
+      # Step 4: Build Remix app
       - name: Build Remix app
         run: bun run build
 
+      # Step 5: Run tests
       - name: Run tests
         run: bun test
         continue-on-error: true
@@ -35,9 +40,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Deploy to Production
       - name: Deploy to Production
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -53,31 +60,32 @@ jobs:
           while [ $attempt -le $max_attempts ]; do
             echo "Deployment attempt $attempt of $max_attempts"
             
-            if ssh -T -i private_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 $SERVER_USER@$SERVER_IP << 'EOF'
-              set -e
-              cd /opt/zephtech.com
-              git pull origin main
-              bun install
-              bun run build
-              if ! sudo systemctl restart zephtech.service; then
-                echo "Failed to restart service"
-                exit 1
-              fi
-              exit 0
-            EOF
-            then
-              echo "Deployment successful"
-              rm private_key
-              exit 0
-            else
-              echo "Deployment failed"
-              if [ $attempt -eq $max_attempts ]; then
-                echo "Max attempts reached. Deployment failed."
-                rm private_key
-                exit 1
-              fi
-              sleep 10
-            fi
-            
-            attempt=$((attempt + 1))
-          done
+            if ssh -T -i private_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 $SERVER_USER@$SERVER_IP <<EOF
+            set -e
+          cd /opt/zephtech.com
+          git pull origin main
+          bun install
+          bun run build
+          if ! sudo systemctl restart zephtech.service; then
+            echo "Failed to restart service"
+            exit 1
+          fi
+          exit 0
+          EOF
+                      then
+                        echo "Deployment successful"
+                        rm private_key
+                        exit 0
+                      else
+                        echo "Deployment failed"
+                        if [ $attempt -eq $max_attempts ]; then
+                          echo "Max attempts reached. Deployment failed."
+                          rm private_key
+                          exit 1
+                        fi
+                        sleep 10
+                      fi
+                      
+                      attempt=$((attempt + 1))
+                    done
+                    rm private_key
