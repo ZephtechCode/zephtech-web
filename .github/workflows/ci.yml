@@ -1,0 +1,65 @@
+name: CI/CD Pipeline for Zephtech
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Install Bun
+      - name: Install Bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "$HOME/.bun/bin" >> $GITHUB_PATH
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: bun install
+
+      # Step 4: Build the project
+      - name: Build project
+        run: bun build
+
+      # Step 5: Run tests (optional)
+      - name: Run tests
+        run: bun test
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Deploy to Production
+      - name: Deploy to Server
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          echo "${PRIVATE_KEY}" > private_key
+          chmod 600 private_key
+          ssh -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
+          echo "Deployment started on $(date)"
+          cd /opt/zephtech.com
+          git pull origin main
+          bun build
+          sudo systemctl restart zephtech.service
+          echo "Deployment completed on $(date)"
+          EOF
+          rm private_key
