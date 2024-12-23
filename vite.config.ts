@@ -9,6 +9,10 @@ declare module "@remix-run/node" {
 }
 
 export default defineConfig({
+  build: {
+    sourcemap: false, // Disable source maps in production
+    emptyOutDir: true, // Ensure old files are cleared
+  },
   plugins: [
     remix({
       future: {

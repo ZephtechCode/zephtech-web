@@ -1,0 +1,50 @@
+name: CI/CD Deployment for Remix
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Install Bun
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: bun install
+
+      # Step 4: Build Remix app
+      - name: Build Remix app
+        run: bun run build
+
+      # Step 5: Deploy built files
+      - name: Deploy to Production
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          echo "${PRIVATE_KEY}" > private_key
+          chmod 600 private_key
+
+          tar -czf app.tar.gz build/
+          scp -i private_key -o StrictHostKeyChecking=no app.tar.gz $SERVER_USER@$SERVER_IP:/opt/zephtech.com/
+
+          ssh -T -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
+            set -e
+            cd /opt/zephtech.com
+            tar -xzf app.tar.gz
+            rm app.tar.gz
+            sudo systemctl restart zephtech.service
+          EOF
+
+          rm private_key
