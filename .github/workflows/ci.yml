@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for Remix (with Vite)
+name: CI/CD Pipeline for Remix
 
 on:
   push:
@@ -11,68 +11,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      ACTIONS_STEP_DEBUG: true
-      NODE_ENV: production
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
       - name: Install Bun
         uses: oven-sh/setup-bun@v1
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            **/node_modules
-            ~/.bun/install/cache
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
-          restore-keys: |
-            ${{ runner.os }}-bun-
 
       - name: Install dependencies
         run: bun install
 
       - name: Build Remix app
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-        run: |
-          echo "Starting Remix build..."
-          bun run build
-          echo "Remix build completed."
-
-      - name: Build Vite assets
-        continue-on-error: true
-        run: |
-          echo "Starting Vite build..."
-          bun run vite build
-          if [ -d "build/client" ]; then
-            echo "Vite build completed successfully"
-            exit 0
-          else
-            echo "Vite build failed"
-            exit 1
-          fi
+        run: bun run build
 
       - name: Run tests
         run: bun test
         continue-on-error: true
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-output
-          path: |
-            build/
-            public/build/
 
   deploy:
     needs: build
@@ -83,11 +38,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build-output
-
       - name: Deploy to Production
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -97,28 +47,9 @@ jobs:
           echo "${PRIVATE_KEY}" > private_key
           chmod 600 private_key
           ssh -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
-            set -e
-            echo "Starting deployment..."
             cd /opt/zephtech.com
-            timestamp=$(date +%Y%m%d_%H%M%S)
-            cp -r . "../backup_$timestamp"
             git pull origin main
-            echo "Building on the server..."
             bun run build
-            bun run vite build
-            echo "Restarting server..."
             sudo systemctl restart zephtech.service
-            for i in {1..12}; do
-              if curl -s http://localhost:3000/health; then
-                echo "Deployment successful!"
-                exit 0
-              fi
-              echo "Waiting for service to start... ($i/12)"
-              sleep 5
-            done
-            echo "Deployment failed! Rolling back..."
-            cp -r "../backup_$timestamp"/* .
-            sudo systemctl restart zephtech.service
-            exit 1
           EOF
           rm private_key
