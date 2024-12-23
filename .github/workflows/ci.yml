@@ -1,15 +1,12 @@
-name: CI/CD Pipeline for Remix
+name: CI/CD Deployment for Remix
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,22 +26,7 @@ jobs:
       - name: Build Remix app
         run: bun run build
 
-      # Step 5: Run tests
-      - name: Run tests
-        run: bun test
-        continue-on-error: true
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Step 2: Deploy to Production
+      # Step 5: Deploy built files
       - name: Deploy to Production
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -53,39 +35,16 @@ jobs:
         run: |
           echo "${PRIVATE_KEY}" > private_key
           chmod 600 private_key
-          
-          max_attempts=3
-          attempt=1
-          
-          while [ $attempt -le $max_attempts ]; do
-            echo "Deployment attempt $attempt of $max_attempts"
-            
-            if ssh -T -i private_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 $SERVER_USER@$SERVER_IP <<EOF
+
+          tar -czf app.tar.gz build/
+          scp -i private_key -o StrictHostKeyChecking=no app.tar.gz $SERVER_USER@$SERVER_IP:/opt/zephtech.com/
+
+          ssh -T -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
             set -e
-          cd /opt/zephtech.com
-          git pull origin main
-          bun install
-          bun run build
-          if ! sudo systemctl restart zephtech.service; then
-            echo "Failed to restart service"
-            exit 1
-          fi
-          exit 0
+            cd /opt/zephtech.com
+            tar -xzf app.tar.gz
+            rm app.tar.gz
+            sudo systemctl restart zephtech.service
           EOF
-                      then
-                        echo "Deployment successful"
-                        rm private_key
-                        exit 0
-                      else
-                        echo "Deployment failed"
-                        if [ $attempt -eq $max_attempts ]; then
-                          echo "Max attempts reached. Deployment failed."
-                          rm private_key
-                          exit 1
-                        fi
-                        sleep 10
-                      fi
-                      
-                      attempt=$((attempt + 1))
-                    done
-                    rm private_key
+
+          rm private_key
