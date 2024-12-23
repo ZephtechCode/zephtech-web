@@ -46,11 +46,38 @@ jobs:
         run: |
           echo "${PRIVATE_KEY}" > private_key
           chmod 600 private_key
-          ssh -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
-            cd /opt/zephtech.com
-            git pull origin main
-            bun install
-            bun run build
-            sudo systemctl restart zephtech.service
-          EOF
-          rm private_key
+          
+          max_attempts=3
+          attempt=1
+          
+          while [ $attempt -le $max_attempts ]; do
+            echo "Deployment attempt $attempt of $max_attempts"
+            
+            if ssh -T -i private_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 $SERVER_USER@$SERVER_IP << 'EOF'
+              set -e
+              cd /opt/zephtech.com
+              git pull origin main
+              bun install
+              bun run build
+              if ! sudo systemctl restart zephtech.service; then
+                echo "Failed to restart service"
+                exit 1
+              fi
+              exit 0
+            EOF
+            then
+              echo "Deployment successful"
+              rm private_key
+              exit 0
+            else
+              echo "Deployment failed"
+              if [ $attempt -eq $max_attempts ]; then
+                echo "Max attempts reached. Deployment failed."
+                rm private_key
+                exit 1
+              fi
+              sleep 10
+            fi
+            
+            attempt=$((attempt + 1))
+          done
