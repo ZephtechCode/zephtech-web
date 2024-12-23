@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for Zephtech
+name: CI/CD Pipeline for Remix (with Vite)
 
 on:
   push:
@@ -27,11 +27,15 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      # Step 4: Build the project
-      - name: Build project
-        run: bun build
+      # Step 4: Build Remix app
+      - name: Build Remix app
+        run: bun run build
 
-      # Step 5: Run tests (optional)
+      # Step 5: Build Vite assets (optional)
+      - name: Build Vite assets
+        run: bun run vite build
+
+      # Step 6: Run tests (optional)
       - name: Run tests
         run: bun test
 
@@ -41,12 +45,10 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Deploy to Production
-      - name: Deploy to Server
+      - name: Deploy to Production
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SERVER_IP: ${{ secrets.SERVER_IP }}
@@ -55,11 +57,10 @@ jobs:
           echo "${PRIVATE_KEY}" > private_key
           chmod 600 private_key
           ssh -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
-          echo "Deployment started on $(date)"
           cd /opt/zephtech.com
           git pull origin main
-          bun build
+          bun run build
+          bun run vite build
           sudo systemctl restart zephtech.service
-          echo "Deployment completed on $(date)"
           EOF
           rm private_key
