@@ -13,30 +13,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Install Bun
       - name: Install Bun
         run: |
           curl -fsSL https://bun.sh/install | bash
           echo "$HOME/.bun/bin" >> $GITHUB_PATH
 
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: bun install
 
-      # Step 4: Build Remix app
       - name: Build Remix app
-        run: bun run build
+        run: |
+          echo "Starting Remix build..."
+          bun run build
+          echo "Remix build completed."
 
-      # Step 5: Build Vite assets (optional)
       - name: Build Vite assets
-        run: bun run vite build
+        run: |
+          echo "Starting Vite build..."
+          bun run vite build
+          echo "Vite build completed."
 
-      # Step 6: Run tests (optional)
-      - name: Run tests
+      - name: Run tests (optional)
         run: bun test
 
   deploy:
@@ -57,10 +57,14 @@ jobs:
           echo "${PRIVATE_KEY}" > private_key
           chmod 600 private_key
           ssh -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
+          echo "Starting deployment..."
           cd /opt/zephtech.com
           git pull origin main
+          echo "Building on the server..."
           bun run build
           bun run vite build
+          echo "Restarting server..."
           sudo systemctl restart zephtech.service
+          echo "Deployment completed."
           EOF
           rm private_key
