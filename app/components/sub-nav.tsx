@@ -39,7 +39,7 @@ const services = [
 export function SubNav() {
   return (
     <div className="w-full max-w-full bg-neutral-950">
-    <NavigationMenu className="mx-2 bg-transparent text-white max-h-14">
+    <NavigationMenu className="mx-2 bg-transparent text-white h-10">
       <NavigationMenuList className="w-full ">
         <NavigationMenuItem >
           <NavigationMenuTrigger >Services</NavigationMenuTrigger>

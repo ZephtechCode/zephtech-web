@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { SubNav } from "./sub-nav";
 
 export default function Nav() {
   const { toggleSidebar } = useSidebar();
@@ -23,8 +24,9 @@ export default function Nav() {
   };
 
   return (
-    <NavigationMenu className="min-w-full [&>*]:w-full bg-sidebar max-h-16">
-      <NavigationMenuList className="flex justify-between px-6">
+    <div>
+    <NavigationMenu className="min-w-full [&>*]:w-full bg-sidebar px-4 py-2">
+      <NavigationMenuList className="flex justify-between ">
         <NavigationMenuItem>
          <a href="/"> <img src="/images/logo.png" className=" w-44" /></a>
         </NavigationMenuItem>
@@ -39,5 +41,7 @@ export default function Nav() {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
+    <SubNav />
+    </div>
   );
 }

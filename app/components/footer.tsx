@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
-    <NavigationMenu className="min-w-full text-white [&>*]:w-full bg-sidebar max-h-16">
-      <NavigationMenuList className="flex  justify-between py-1 px-6">
+    <div>
+    <NavigationMenu className="min-w-full text-white [&>*]:w-full bg-sidebar px-4 py-2">
+      <NavigationMenuList className="flex justify-between ">
         <NavigationMenuItem>
         © 2024 Zephtech LLC
         </NavigationMenuItem>
@@ -18,5 +19,6 @@ export default function Footer() {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
+    </div>
   );
 }

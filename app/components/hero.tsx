@@ -174,7 +174,7 @@ export default function Hero() {
             asChild
             className="bg-green-600 text-white transition-colors hover:bg-green-700"
           >
-            <a href="/options">Establish Connection</a>
+            <a href="/options">Establish Link</a>
           </Button>
         </div>
       </div>
