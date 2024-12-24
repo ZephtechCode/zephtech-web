@@ -116,7 +116,7 @@ export default function Hero() {
         portrait:h-[40svh]
         portrait:md:h-[50svh]
         h-[60svh]
-        bg-[url('/images/hero.png')]
+        bg-[url('/images/hero.svg')]
         bg-no-repeat
         bg-bottom
         bg-cover
