@@ -113,8 +113,8 @@ export default function Hero() {
       id="hero-background"
       className="
         relative
-        portrait:h-[40svh]
-        portrait:md:h-[50svh]
+        mobile:h-[44svh]
+        tl-mobile:h-[55svh]
         h-[60svh]
         bg-[url('/images/hero.svg')]
         bg-no-repeat

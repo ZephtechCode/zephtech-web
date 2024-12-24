@@ -38,11 +38,11 @@ const services = [
 
 export function SubNav() {
   return (
-    <div className="w-full max-w-full bg-neutral-950">
-    <NavigationMenu className="mx-2 bg-transparent text-white h-10">
-      <NavigationMenuList className="w-full ">
-        <NavigationMenuItem >
-          <NavigationMenuTrigger >Services</NavigationMenuTrigger>
+    <div className="w-full bg-neutral-950">
+    <NavigationMenu className="bg-transparent text-white">
+      <NavigationMenuList className="w-full">
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className="tl-mobile:text-xs">Services</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3 border-green-700 border rounded-lg">
@@ -84,7 +84,7 @@ export function SubNav() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger >Resources</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="tl-mobile:text-xs">Resources</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[500px]">
               <ListItem href="/blog/docs" title="Docs">
@@ -105,7 +105,7 @@ export function SubNav() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <a href="/legal">
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink className={`tl-mobile:text-xs ${navigationMenuTriggerStyle()}`}>
               Terms of Service
             </NavigationMenuLink>
           </a>

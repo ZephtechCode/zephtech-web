@@ -20,6 +20,11 @@ export default {
   		}
   	},
   	extend: {
+		screens: {
+			'mobile': { 'raw': '(max-width: 600px) and (max-height: 1024px)' },
+			'tl-mobile': { 'raw': '(max-width: 344px) and (max-height: 882px)' },
+			'lg-mobile': { 'raw': '(max-width: 1024px) and (max-height: 1366px)' },
+		  },
   		colors: {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
