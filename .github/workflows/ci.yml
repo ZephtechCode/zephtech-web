@@ -12,11 +12,12 @@ jobs:
     steps:
       # Step 1: Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Install Bun
-      - name: Install Bun
-        uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -41,7 +42,7 @@ jobs:
 
           ssh -T -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
             set -e
-            cd /opt/zephtech.com
+            cd /opt/zephtech.com/
             tar -xzf app.tar.gz
             rm app.tar.gz
             sudo systemctl restart zephtech.service
