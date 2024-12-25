@@ -45,6 +45,8 @@ jobs:
             cd /opt/zephtech.com/
             tar -xzf app.tar.gz
             rm app.tar.gz
+                 
+            /home/brionlund/.bun/bin/bun install --production
             sudo systemctl restart zephtech.service
           EOF
 
