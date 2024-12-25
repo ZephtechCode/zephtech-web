@@ -37,7 +37,7 @@ jobs:
           echo "${PRIVATE_KEY}" > private_key
           chmod 600 private_key
 
-          tar -czf app.tar.gz build/
+          tar -czf app.tar.gz build/ package.json bun.lockb
           scp -i private_key -o StrictHostKeyChecking=no app.tar.gz $SERVER_USER@$SERVER_IP:/opt/zephtech.com/
 
           ssh -T -i private_key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << 'EOF'
