@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
-import "../css/hero.css";
+'use client';
+
+import { useEffect } from "react";
+import "~/css/hero.css";
 import { Button } from "@/components/ui/button";
 
 export default function Hero() {

@@ -1,5 +1,4 @@
 import type { MetaFunction } from "@remix-run/node";
-import { SubNav } from "~/components/sub-nav";
 
 
 import Hero from "~/components/hero";

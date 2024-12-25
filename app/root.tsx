@@ -7,16 +7,15 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "./components/app-sidebar"; // Import your sidebar component
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "~/components/app-sidebar"; // Import your sidebar component
 import Footer from "~/components/footer";
 
 import "./globals.css";
 import { themeSessionResolver } from "./sessions.server";
 import { Theme, ThemeProvider, useTheme } from "remix-themes";
 import clsx from "clsx";
-import Nav from "./components/nav";
-import { SubNav } from "./components/sub-nav";
+import Nav from "~/components/nav";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

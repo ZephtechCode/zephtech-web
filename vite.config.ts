@@ -8,10 +8,10 @@ declare module "@remix-run/node" {
   }
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   build: {
-    sourcemap: false, // Disable source maps in production
-    emptyOutDir: true, // Ensure old files are cleared
+    sourcemap: mode === "production" ? false : true,
+    emptyOutDir: true,
   },
   plugins: [
     remix({
@@ -25,4 +25,5 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
-});
+}));
+
